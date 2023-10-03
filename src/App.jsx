@@ -2,6 +2,18 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+import { createApi } from 'unsplash-js'
+
+
+
+const unsplashApi = createApi({
+  accessKey: 'cEdDJvlZ-0D4e1Aq5ochvo3gbEeC3JJPnPIgaOvw8Qg'
+})
+
+
+
+
+
 
 function App() {
   const [temp, setTemp] = useState("")
@@ -9,6 +21,8 @@ function App() {
   const [location, setLocation] = useState("")
   const [imageURL, setImageURL] = useState("")
   const [input, setInput] = useState("")
+  const [bgImg, setBgImg] = useState("")
+  const [textColor, setTextColor] = useState("")
 
   async function handleSubmit (e) {
     e.preventDefault;
@@ -21,29 +35,43 @@ function App() {
         return response.json();
       })
       .then((response) => {
-        console.log(response);
         setTemp(response.current.temp_f + "° F");
         setCondition(response.current.condition.text);
         setLocation(response.location.name + ", " + response.location.region)
         setImageURL(response.current.condition.icon);
+        
+
+        unsplashApi.search.getPhotos({
+          query: response.location.name,
+          page: 1,
+          perPage: 1,
+        }).then((newResponse) => setBgImg(newResponse.response.results[0]))
+        console.log(bgImg)
+        //Bitshift operation to invert hexcode from API
+        let hex = bgImg.color.replace(/^#/, '');
+        hex = parseInt(hex, 16);
+        const invertHex = -hex & 0xFFFFFF;
+        setTextColor(`#${invertHex.toString(16)}`);
+
+
 
       });
-
 
  
   }
 
   return (
     <>
-    <div className="container">
+    <div className="container" style={{ backgroundImage: `url(${bgImg.urls.raw})`, color: textColor, textShadow: `2px 3px 2px ${bgImg.color}`} }>
+      <h2>Whats the weather like today?</h2>
       <div className="input-container">
         <form onSubmit={(e) => {e.preventDefault(); handleSubmit }}>
-          <input type="" id="input" onChange={(e) => setInput(e.target.value)}/>
+          <input placeholder="Location" type="" id="input" onChange={(e) => setInput(e.target.value)}/>
           <button id="submit" type="button" onClick={handleSubmit}>Submit</button>
         </form>
       </div>
-      <div className="data-container">
-        <p id="location">{location}</p>
+      <div className="data-container" style={{backgroundColor: bgImg.color}}>
+        <h1 id="location">{location}</h1>
         <div className="condition-container">
           <img src={imageURL} id="condition-img" />
           <p id="weather">{condition}</p>
