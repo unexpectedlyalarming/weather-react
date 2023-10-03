@@ -60,23 +60,15 @@ function App() {
         setBgImg(newBgImg);
         })
 
-
+ 
 
 
       });
+      
 
    
   }
-  const dataContainer = (
-    <div className="data-container" style={{backgroundColor: bgImg.color}}>
-    <h1 id="location">{location}</h1>
-    <div className="condition-container">
-      <img src={imageURL} id="condition-img" />
-      <p id="weather">{condition}</p>
-    </div>
-    <p id="temp">{temp}</p>
-  </div>
-  )
+
     if (hasVisited) return (
       <>
       <div className="container" style={{ backgroundImage: `url(${bgImg?.urls?.raw})`, color: textColor, textShadow: `2px 3px 2px black`} }>
@@ -104,9 +96,9 @@ function App() {
     <div className="container" style={{ backgroundImage: `url(${bgImg?.urls?.raw})`, color: textColor, textShadow: `2px 3px 2px black`} }>
       <h2>Whats the weather like today?</h2>
       <div className="input-container">
-        <form onSubmit={(e) => {e.preventDefault(); handleSubmit }}>
+        <form onSubmit={handleSubmit}>
           <input placeholder="Location" type="" id="input" onChange={(e) => setInput(e.target.value)}/>
-          <button id="submit" type="button" onClick={handleSubmit}>Submit</button>
+          <button id="submit" type="submit" onClick={handleSubmit}>Submit</button>
         </form>
       </div>
 
