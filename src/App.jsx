@@ -76,7 +76,7 @@ function App() {
         <div className="input-container">
           <form onSubmit={(e) => {e.preventDefault(); handleSubmit }}>
             <input placeholder="Location" type="" id="input" onChange={(e) => setInput(e.target.value)}/>
-            <button id="submit" type="button" onClick={handleSubmit}>Submit</button>
+            <button id="submit" type="button" onClick={handleSubmit}>Search</button>
           </form>
         </div>
   
@@ -98,7 +98,7 @@ function App() {
       <div className="input-container">
         <form onSubmit={handleSubmit}>
           <input placeholder="Location" type="" id="input" onChange={(e) => setInput(e.target.value)}/>
-          <button id="submit" type="submit" onClick={handleSubmit}>Submit</button>
+          <button id="submit" type="submit" onClick={handleSubmit}>Search</button>
         </form>
       </div>
 
